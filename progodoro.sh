@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Configurable variables
-motivation_levels=("Low" "Medium" "High" "Flow") # Add or remove levels as needed
-motivation_timers=(3 15 30 0)                    # Corresponding timers for each motivation level in minutes
-break_timers=(15 12 10 5)                        # Corresponding break timers for each motivation level in minutes
+motivation_levels=("low" "med" "hi" "flow") # Add or remove levels as needed
+motivation_timers=(3 15 30 0)               # Corresponding timers for each motivation level in minutes
+break_timers=(15 12 10 5)                   # Corresponding break timers for each motivation level in minutes
 
 # Log file
 log_file="work_log_$(date +'%Y%m%d').txt"
@@ -58,7 +58,7 @@ function countdown() {
   # Inform the user about the ability to cancel the timer
   echo -e "The timer is about to start. You can cancel it anytime by pressing CTRL+C."
 
-  trap 'echo; log_entry "$message timer canceled after $(printf "%02d:%02d:%02d" $((count / 3600)) $(( (count / 60) % 60)) $((count % 60)))/$(printf "%02d:%02d:%02d" $((timer / 60)) $((timer % 60)) 0)"; read -p "Break timer canceled. Would you like to quit or start a work timer? (q/w): " choice; case $choice in q) exit 1 ;; w) read -p "Enter your motivation level (${motivation_levels[*]}): " level; index=$(get_index "$level"); start_timer "$level" "${motivation_timers[$index]}" ;; esac' INT
+  trap 'echo; log_entry "$message timer canceled after $(printf "%02d:%02d:%02d" $((count / 3600)) $(( (count / 60) % 60)) $((count % 60)))/$(printf "%02d:%02d:%02d" $((timer / 60)) $((timer % 60)) 0)"; read -p "break timer canceled. Would you like to quit or start a work timer? (q/w): " choice; case $choice in q) exit 1 ;; w) read -p "Enter your motivation level (${motivation_levels[*]}): " level; index=$(get_index "$level"); start_timer "$level" "${motivation_timers[$index]}" ;; esac' INT
 
   for ((remaining = timer * 60; remaining > 0; remaining--)); do
     mins=$((remaining / 60))
@@ -79,7 +79,7 @@ function start_timer() {
   read -p $'(Optional message for the work timer log): ' optional_message
 
   if [ $timer -eq 0 ]; then
-    log_entry "$level timer started - Infinite - $optional_message" 
+    log_entry "$level timer started - Infinite - $optional_message"
   else
     log_entry "$level timer started - $timer minutes - $optional_message"
   fi
@@ -121,14 +121,26 @@ function log_timer() {
 }
 
 # Ask for the initial motivation level
-read -p "Enter your initial motivation level (${motivation_levels[*]}): " initial_motivation
-case $initial_motivation in
-"Low" | "Medium" | "High" | "Flow") ;;
-*)
-  echo "Invalid initial motivation level. Exiting."
-  exit 1
-  ;;
-esac
+while true; do
+  read -p "Enter your initial motivation level (${motivation_levels[*]}): " initial_motivation
+  initial_motivation=$(echo "$initial_motivation" | tr '[:upper:]' '[:lower:]') # Convert input to lowercase
+
+  # Find the index of the initial motivation level
+  initial_index=-1
+  for ((i = 0; i < ${#motivation_levels[@]}; i++)); do
+    if [ "${motivation_levels[i]}" == "$initial_motivation" ]; then
+      initial_index=$i
+      break
+    fi
+  done
+
+  # Check if a valid motivation level was entered
+  if [ $initial_index -ne -1 ]; then
+    break
+  else
+    echo "Invalid initial motivation level. Please try again."
+  fi
+done
 
 # Find the index of the initial motivation level
 initial_index=-1
