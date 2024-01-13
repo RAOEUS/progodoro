@@ -1,0 +1,11 @@
+{
+  "name": "progodomo",
+  "version": "1.0.0",
+  "description": "A Progressive Pomodoro node.js script",
+  "main": "progodoro.js",
+  "scripts": {
+    "start": "node progodoro.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

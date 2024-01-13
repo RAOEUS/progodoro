@@ -2,6 +2,13 @@ const readline = require('readline');
 const fs = require('fs');
 const path = require('path');
 
+const motivationConfig = {
+  'lo': ['00:03:00', '00:15:00'],
+  'med': ['00:15:00', '00:12:00'],
+  'hi': ['00:30:00', '00:10:00'],
+  'flow': ['00:00:00', '00:05:00']
+}
+
 class TimerLog {
   constructor() {
     this.filePath = path.join(__dirname, 'log.json');
@@ -66,7 +73,7 @@ class Timer {
       let hours = Math.floor(this.duration / 3600);
       let minutes = Math.floor((this.duration % 3600) / 60);
       let seconds = this.duration % 60;
-      process.stdout.write('\r' + this.timerType + ' - ' + this.motivationLevel + ' motivation - ' + (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds + ' remaining');
+      process.stdout.write('\r[ ' + (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds + ' ] - ' + this.timerType + ' - ' + this.motivationLevel.toUpperCase() + ' MOTIVATION');
       this.duration--;
       if (this.duration === 0) {
         const elapsedTime = this.originalLength - this.duration;
@@ -94,12 +101,7 @@ class Pomodoro {
       output: process.stdout
     });
 
-    this.motivationConfig = {
-      'lo': ['00:03:00', '00:15:00'],
-      'med': ['00:15:00', '00:12:00'],
-      'hi': ['00:30:00', '00:10:00'],
-      'flow': ['00:00:00', '00:05:00']
-    };
+    this.motivationConfig = motivationConfig;
 
     this.currentTimer = null;
     this.isWorkPeriod = true;
@@ -133,13 +135,13 @@ class Pomodoro {
 
     const startWorkPeriod = (message = '') => {
       this.isWorkPeriod = true;
-      this.currentTimer = new Timer(workTime, "Work time is over! Take a break.", startBreakPeriod, 'Work timer', motivationLevel, this.timerLog, message);
+      this.currentTimer = new Timer(workTime, "Work time is over! Take a break.", startBreakPeriod, 'WORK', motivationLevel, this.timerLog, message);
       this.currentTimer.start();
     }
 
     const startBreakPeriod = () => {
       this.isWorkPeriod = false;
-      this.currentTimer = new Timer(breakTime, "Break time is over! Back to work.", askMotivationLevel, 'Break timer', motivationLevel, this.timerLog);
+      this.currentTimer = new Timer(breakTime, "Break time is over! Back to work.", askMotivationLevel, 'BREAK', motivationLevel, this.timerLog);
       this.currentTimer.start();
     }
 
