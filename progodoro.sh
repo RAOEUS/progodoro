@@ -38,6 +38,33 @@ function log_entry() {
   echo "$(get_current_timestamp) - $message" >>"$log_file"
 }
 
+function handle_motivation_change() {
+  read -p $"Break timer ended. Has motivation level stayed the same, dropped lower, or increased? (s/l/i): " motivation_change
+
+  case $motivation_change in
+  s) ;; # Stay the same
+  l)
+    if [ "$index" -gt 0 ]; then
+      index=$((index - 1))
+      level=${motivation_levels[index]}
+    else
+      echo "You're already at the lowest motivation level."
+    fi
+    ;;
+  i)
+    if [ "$index" -lt $((${#motivation_levels[@]} - 1)) ]; then
+      index=$((index + 1))
+      level=${motivation_levels[index]}
+    else
+      echo "You're already at the highest motivation level."
+    fi
+    ;;
+  *)
+    echo "Invalid input. Staying at the current motivation level."
+    ;;
+  esac
+}
+
 function countdown() {
   local timer=$1
   local message=$2
@@ -62,31 +89,7 @@ function countdown() {
   if [ "$message" == "Break" ]; then
     notify-send "Break Timer" "Break time is up. Please return to the terminal to start a new timer."
     echo
-    read -p $"Break timer ended. Has motivation level stayed the same, dropped lower, or increased? (s/l/i): " motivation_change
-
-    case $motivation_change in
-    s) ;; # Stay the same
-    l)
-      if [ "$index" -gt 0 ]; then
-        index=$((index - 1))
-        level=${motivation_levels[index]}
-      else
-        echo "You're already at the lowest motivation level."
-      fi
-      ;;
-    i)
-      if [ "$index" -lt $((${#motivation_levels[@]} - 1)) ]; then
-        index=$((index + 1))
-        level=${motivation_levels[index]}
-      else
-        echo "You're already at the highest motivation level."
-      fi
-      ;;
-    *)
-      echo "Invalid input. Staying at the current motivation level."
-      ;;
-    esac
-
+    handle_motivation_change
     start_timer "$level"
   fi
 }
@@ -156,29 +159,7 @@ for index in "${!motivation_levels[@]}"; do
   start_timer "$level"
   if [ "$level" != "${motivation_levels[-1]}" ]; then
     echo
-    read -p $"Break timer ended. Has motivation level stayed the same, dropped lower, or increased? (s/l/i): " motivation_change
-    case $motivation_change in
-    s) ;; # Stay the same
-    l)
-      if [ "$index" -gt 0 ]; then
-        index=$((index - 1))
-        level=${motivation_levels[index]}
-      else
-        echo "You're already at the lowest motivation level."
-      fi
-      ;;
-    i)
-      if [ "$index" -lt $((${#motivation_levels[@]} - 1)) ]; then
-        index=$((index + 1))
-        level=${motivation_levels[index]}
-      else
-        echo "You're already at the highest motivation level."
-      fi
-      ;;
-    *)
-      echo "Invalid input. Staying at the current motivation level."
-      ;;
-    esac
+    handle_motivation_change
   fi
 done
 
