@@ -368,9 +368,9 @@
               let msg = timerType === 'work' ? `Your work timer is up! You have ${breakLength} to rest.` : 'Your break timer is up! Please return to the browser tab to start your next work session.';
               const notification = new Notification('Progodoro', {
                 body: msg,
-                requireInteraction: true,
               });
             }
+
             // Play chime sound
             if (localStorage.getItem('sound') === 'true' || localStorage.getItem('sound') === null) {
               const audio = new Audio('/chimebar_a.mp3');
