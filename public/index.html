@@ -10,6 +10,21 @@
   <meta name="description"
     content="Progodoro, a portmanteau of Progressive and Pomodoro. Progressively increases your work time and decreases your break time as your motivation levels increase.">
   <meta name="keywords" content="pomodoro,progodoro,timer,flow state,time management,productivity">
+  <style>
+    .input-group.checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .input-group.checkbox label {
+      width: auto;
+    }
+
+    .input-group.checkbox input[type="checkbox"] {
+      width: auto;
+    }
+  </style>
 </head>
 
 <body>
@@ -30,6 +45,7 @@
         </a>
       </ul>
     </nav>
+    <div class="notifications-off"></div>
     <div style="margin-bottom: 1rem;">
       <button id="whats-progodoro-button">what's progodoro?</button>
     </div>
@@ -88,6 +104,10 @@
         </div>
       </div>
     </div>
+    <div class="input-group checkbox">
+      <label for="sound">sound on</label>
+      <input type="checkbox" name="sound" id="sound" checked="true">
+    </div>
     <form id="timerForm">
       <div class="hideDuringTimer">
         <div class="input-group">
@@ -115,6 +135,12 @@
         console.log('Unable to get permission to notify.');
       }
     });
+
+    // If notifications permissions are denied, display a message
+    const notificationsOff = document.querySelector('.notifications-off');
+    if (Notification.permission !== 'granted') {
+      notificationsOff.innerHTML = '<p>Please enable notifications in your browser settings to receive system notifications.</p>';
+    }
 
     let timeStart;
     let timeEnd;
@@ -318,6 +344,12 @@
             displayTimer(seconds);
 
             dateTimeEnd = new Date();
+
+            // Play chime sound
+            if (document.getElementById('sound').checked) {
+              const audio = new Audio('/chimebar_a.wav');
+              audio.play();
+            }
 
             // send a notification
             let msg = timerType === 'work' ? `Your work timer is up! You have ${breakLength} to rest.` : 'Your break timer is up! Please return to the browser tab to start your next work session.';
