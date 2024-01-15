@@ -265,6 +265,7 @@
       clearInterval(timerInterval);
       timeEnd = performance.now();
       dateTimeEnd = new Date();
+      document.getElementsByTagName('title')[0].innerHTML = 'Progodoro';
       timerEl.style.display = 'none';
       const submitBtn = document.querySelector('input[type="submit"]');
       submitBtn.value = 'start';
@@ -285,6 +286,7 @@
       const secs = seconds % 60;
       const timeRemaining = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''
         }${secs}`;
+      document.getElementsByTagName('title')[0].innerHTML = (timerType === 'work' ? 'Work' : 'Break') + ' ' + timeRemaining;
       timerEl.style.display = 'flex';
       timerEl.innerHTML = `
           <div class="timer__time">${timeRemaining}</div>
