@@ -214,6 +214,56 @@
       });
     }
 
+    // Display timer with hh:mm:ss format from seconds input
+    function displayTimer(seconds) {
+      const hideDuringTimer = document.querySelectorAll('.hideDuringTimer');
+      hideDuringTimer.forEach((el) => {
+        el.style.display = 'none';
+      });
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor(seconds / 60) % 60;
+      const secs = seconds % 60;
+      const timeRemaining = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''
+        }${secs}`;
+      timerEl.style.display = 'flex';
+      timerEl.innerHTML = `
+          <div class="timer__time">${timeRemaining}</div>
+          <table class="timer__table">
+            <tr>
+              <td>motivation</td>
+              <td>${curMotivation}</td>
+            </tr>
+            <tr>
+              <td>type</td>
+              <td>${timerType}</td>
+            </tr>
+            <tr>
+              <td>notes</td>
+              <td>${notes ? notes : 'none'}</td>
+            </tr>
+          </table>
+        `;
+      const submitBtn = document.querySelector('input[type="submit"]');
+      submitBtn.value = 'stop';
+    }
+
+    function startStopWatch() {
+      dateTimeStart = new Date();
+      // clear any existing timer interval
+      clearInterval(timerInterval);
+      // set the timer length
+      let seconds = 0;
+      timeStart = performance.now();
+      dateTimeStart = new Date();
+      // set the timer interval
+      timerInterval = setInterval(() => {
+        const currentTime = performance.now();
+        elapsedTime = currentTime - timeStart; // calculate elapsed time in milliseconds
+        seconds = Math.floor(elapsedTime / 1000);
+        displayTimer(seconds);
+      }, 1000);
+    }
+
     function startTimer() {
       function setTimerInterval(type) {
         dateTimeStart = new Date();
@@ -269,38 +319,6 @@
         }, 1000);
       }
 
-      // Display timer with hh:mm:ss format from seconds input
-      function displayTimer(seconds) {
-        const hideDuringTimer = document.querySelectorAll('.hideDuringTimer');
-        hideDuringTimer.forEach((el) => {
-          el.style.display = 'none';
-        });
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor(seconds / 60) % 60;
-        const secs = seconds % 60;
-        const timeRemaining = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''
-          }${secs}`;
-        timerEl.style.display = 'flex';
-        timerEl.innerHTML = `
-          <div class="timer__time">${timeRemaining}</div>
-          <table class="timer__table">
-            <tr>
-              <td>motivation</td>
-              <td>${curMotivation}</td>
-            </tr>
-            <tr>
-              <td>type</td>
-              <td>${timerType}</td>
-            </tr>
-            <tr>
-              <td>notes</td>
-              <td>${notes ? notes : 'none'}</td>
-            </tr>
-          </table>
-        `;
-        const submitBtn = document.querySelector('input[type="submit"]');
-        submitBtn.value = 'stop';
-      }
 
       setTimerInterval('work');
     }
@@ -330,7 +348,11 @@
         event.preventDefault();
         getTimerValues();
         if (event.submitter.value === 'start') {
-          startTimer();
+          if (workLength === '00:00:00' || breakLength === '00:00:00') {
+            startStopWatch();
+          } else {
+            startTimer();
+          }
         } else {
           canceledEarly = true;
           stopTimer();

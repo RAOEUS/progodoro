@@ -54,7 +54,8 @@ code {
 }
 
 .container {
-  max-width: 500px;
+  width: 500px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -191,7 +192,8 @@ th {
   margin: auto;
   padding: 20px;
   border-radius: var(--border-radius);
-  max-width: 500px;
+  width: 500px;
+  max-width: 100%;
 }
 
 .modal__close {
