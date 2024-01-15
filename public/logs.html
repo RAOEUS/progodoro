@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progodoro</title>
+  <link rel="shortcut icon" href="tomato-icon.png" type="image/png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="nav__title">
+        <h1>🍅 logs</h1>
+      </div>
+      <ul class="nav__links">
+        <a href="/">
+          <li>home</li>
+        </a>
+        <a href="/config">
+          <li>config</li>
+        </a>
+      </ul>
+    </nav>
+    <button class="download" style="margin-bottom: 1rem;">Download Logs</button>
+    <button class="sort" style="margin-bottom: 1rem;">Sort by ID ASC</button>
+    <div class="logs">
+    </div>
+  </div>
+  <script>
+    curSortOrder = 'ASC';
+
+    // Read the logs from the local storage and display them
+    const logs = JSON.parse(localStorage.getItem('timerLogs')).sort((a, b) => a.id - b.id);
+
+    const downloadBtn = document.querySelector('.download');
+    downloadBtn.addEventListener('click', () => {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logs, null, 2));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", "logs.json");
+      document.body.appendChild(downloadAnchorNode); // required for firefox
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    })
+
+    const sortBtn = document.querySelector('.sort');
+    sortBtn.addEventListener('click', () => {
+      const sortedLogs = [...logs]; // create a copy of the logs array
+      if (curSortOrder === 'ASC') {
+        curSortOrder = 'DESC';
+        sortedLogs.sort((a, b) => b.id - a.id);
+      } else {
+        curSortOrder = 'ASC';
+        sortedLogs.sort((a, b) => a.id - b.id);
+      }
+      displayLogs(sortedLogs); // display the sorted logs
+    })
+
+    const logsEl = document.querySelector('.logs');
+    function displayLogs(logsToDisplay) {
+      logsEl.innerHTML = '';
+
+      logsToDisplay.map((log) => {
+        const newLog = document.createElement('div');
+        newLog.innerHTML = `
+        <table class="log" style="margin-bottom: 1rem;">
+          <tr>
+            <td>id</td>
+            <td>${log.id}</td>
+          </tr>
+          <tr>
+            <td>dateTimeStart</td>
+            <td>${log.dateTimeStart}</td>
+          </tr>
+          <tr>
+            <td>dateTimeEnd</td>
+            <td>${log.dateTimeEnd}</td>
+          </tr>
+          <tr>
+            <td>duration</td>
+            <td>${log.duration}</td>
+          </tr>
+        </table> 
+      `
+        logsEl.appendChild(newLog);
+      })
+    }
+
+    displayLogs(logs);
+  </script>
+</body>
+
+</html>
