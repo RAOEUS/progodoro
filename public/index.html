@@ -106,7 +106,7 @@
     </div>
     <div class="input-group checkbox">
       <label for="sound">sound on</label>
-      <input type="checkbox" name="sound" id="sound" checked="true">
+      <input type="checkbox" name="sound" id="sound">
     </div>
     <form id="timerForm">
       <div class="hideDuringTimer">
@@ -157,6 +157,22 @@
 
     const timerEl = document.getElementById('timer');
     const form = document.getElementById('timerForm');
+
+    function handleSoundSettings() {
+      // Set checkbox for sound based on localStorage value
+      const soundCheckbox = document.getElementById('sound');
+      const soundChecked = localStorage.getItem('sound') === 'true' || localStorage.getItem('sound') === null;
+
+      soundCheckbox.checked = soundChecked;
+
+      soundCheckbox.addEventListener('change', () => {
+        if (soundCheckbox.checked) {
+          localStorage.setItem('sound', true);
+        } else {
+          localStorage.setItem('sound', false);
+        }
+      });
+    }
 
     // format hh:mm:ss time to seconds for use in setInterval
     function formatTime(time) {
@@ -345,18 +361,17 @@
 
             dateTimeEnd = new Date();
 
-            // Play chime sound
-            if (document.getElementById('sound').checked) {
-              const audio = new Audio('/chimebar_a.mp3');
-              audio.play();
-            }
-
             // send a notification
             let msg = timerType === 'work' ? `Your work timer is up! You have ${breakLength} to rest.` : 'Your break timer is up! Please return to the browser tab to start your next work session.';
             const notification = new Notification('Progodoro', {
               body: msg,
               requireInteraction: true,
             });
+            // Play chime sound
+            if (localStorage.getItem('sound') === 'true' || localStorage.getItem('sound') === null) {
+              const audio = new Audio('/chimebar_a.mp3');
+              audio.play();
+            }
 
             // Start break timer
             if (timerType === 'work') {
@@ -374,6 +389,8 @@
     }
 
     async function main() {
+      handleSoundSettings();
+
       // =======================================================================
       // Get the motivation config from localStorage or fetch it from the server
       // =======================================================================
