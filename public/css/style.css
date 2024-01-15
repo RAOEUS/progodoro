@@ -4,9 +4,9 @@
   --success-col: #126014;
   --warning-col: #f5a623;
   --info-col: #7676d0;
-  --error-col: #c63228;
+  --error-col: #dd2e44;
   --primary-col: #50327f;
-  --secondary-col: rgb(48, 40, 166);
+  --secondary-col: #dd2e44;
   --link-col: #7676d0;
 
   /*Light*/
@@ -35,7 +35,7 @@ body {
 }
 
 body * {
-  font-family: 'Courier', monospace;
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
 }
 
 a {
@@ -117,7 +117,7 @@ input[type="submit"] {
 }
 
 .input-group input[type="submit"] {
-  background: var(--primary-col);
+  background: var(--success-col);
   color: white;
 }
 
@@ -162,7 +162,7 @@ th {
 }
 
 #timer .timer__time {
-  font-size: 2em;
+  font-size: 3em;
   font-weight: bold;
 }
 
@@ -201,6 +201,10 @@ th {
   font-size: 2em;
   font-weight: bold;
   width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1em;
 }
 
 .modal__close:hover,

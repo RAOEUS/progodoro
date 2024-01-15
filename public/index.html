@@ -31,7 +31,7 @@
       <div class="modal__content">
         <div class="modal__header">
           <h2>what's progodoro?</h2>
-          <button class="modal__close">x</button>
+          <button class="modal__close">X</button>
         </div>
         <div class="modal__body">
           <h2>Progodoro vs. Pomodoro: A Time Management Comparison</h2>
@@ -138,7 +138,7 @@
         dateTimeStart: dateTimeStart,
         dateTimeEnd: dateTimeEnd,
         originalLength: timerType === 'work' ? formatTime(workLength) : formatTime(breakLength),
-        duration: Math.floor((dateTimeEnd - dateTimeStart) / 1000),
+        duration: Math.round((dateTimeEnd - dateTimeStart) / 1000),
         motivation: curMotivation,
         type: timerType,
       };
@@ -281,7 +281,23 @@
         const timeRemaining = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''
           }${secs}`;
         timerEl.style.display = 'flex';
-        timerEl.innerHTML = `<div class="timer__time">${timeRemaining}</div>`;
+        timerEl.innerHTML = `
+          <div class="timer__time">${timeRemaining}</div>
+          <table class="timer__table">
+            <tr>
+              <td>motivation</td>
+              <td>${curMotivation}</td>
+            </tr>
+            <tr>
+              <td>type</td>
+              <td>${timerType}</td>
+            </tr>
+            <tr>
+              <td>notes</td>
+              <td>${notes ? notes : 'none'}</td>
+            </tr>
+          </table>
+        `;
         const submitBtn = document.querySelector('input[type="submit"]');
         submitBtn.value = 'stop';
       }
