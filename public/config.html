@@ -28,6 +28,7 @@
       <p>Time is formatted like <b>hh:mm:ss</b></p>
       <p><code>00:00:00</code> for an infinite stopwatch</p>
     </div>
+    <button id="reset" value="reset to default">Reset to Default</button>
     <form id="configForm">
       <h2>lo:</h2>
       <div class="input-group">
@@ -83,9 +84,25 @@
         defaultConfig = data;
 
         const configForm = document.getElementById('configForm');
+        const resetBtn = document.querySelector('#reset');
 
         // Load the config from localStorage or use the default config
-        const config = JSON.parse(localStorage.getItem('motivationConfig')) || defaultConfig;
+        const configData = localStorage.getItem('motivationConfig');
+        const config = JSON.parse(configData) || defaultConfig;
+
+        if (!configData) {
+          resetBtn.style.display = 'none';
+        } else {
+          resetBtn.style.display = 'block';
+        }
+
+        resetBtn.addEventListener('click', () => {
+          localStorage.setItem('motivationConfig', JSON.stringify(defaultConfig));
+          showToast('configuration reset successfully. <br/>reloading data in 3 seconds...', 'success');
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        });
 
         // Set the input values to the corresponding config values
         for (const level in config) {
@@ -96,7 +113,7 @@
         function showToast(message, type) {
           const toast = document.createElement('div');
           toast.className = `toast toast-${type}`;
-          toast.textContent = message;
+          toast.innerHTML = message;
 
           const container = document.getElementById('toast');
           container.appendChild(toast);
