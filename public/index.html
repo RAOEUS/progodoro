@@ -133,11 +133,22 @@
     }
 
     function logTimerData() {
+      let originalLength;
+      if (formatTime(workLength) === 0 || formatTime(breakLength) === 0) {
+        // Stopwatch timer
+        timerType = 'work';
+        originalLength = 0;
+        duration = Math.round(elapsedTime / 1000);
+      } else {
+        // Regular timer
+        originalLength = timerType === 'work' ? formatTime(workLength) : formatTime(breakLength);
+        duration = Math.round((dateTimeEnd - dateTimeStart) / 1000);
+      }
       let newLog = {
         canceledEarly: canceledEarly,
         dateTimeStart: dateTimeStart,
         dateTimeEnd: dateTimeEnd,
-        originalLength: timerType === 'work' ? formatTime(workLength) : formatTime(breakLength),
+        originalLength: originalLength,
         duration: Math.round((dateTimeEnd - dateTimeStart) / 1000),
         motivation: curMotivation,
         type: timerType,
@@ -248,13 +259,13 @@
     }
 
     function startStopWatch() {
+      timerType = 'work';
       dateTimeStart = new Date();
       // clear any existing timer interval
       clearInterval(timerInterval);
       // set the timer length
       let seconds = 0;
       timeStart = performance.now();
-      dateTimeStart = new Date();
       // set the timer interval
       timerInterval = setInterval(() => {
         const currentTime = performance.now();
@@ -354,8 +365,16 @@
             startTimer();
           }
         } else {
-          canceledEarly = true;
-          stopTimer();
+          // Check if stopwatch timer or regular timer
+          if (formatTime(workLength) === 0 || formatTime(breakLength) === 0) {
+            // Stopwatch timer
+            dateTimeEnd = new Date(); // set dateTimeEnd to current time for stopwatch timer
+            stopTimer();
+          } else {
+            // Regular timer
+            canceledEarly = true;
+            stopTimer();
+          }
         }
       });
     }
