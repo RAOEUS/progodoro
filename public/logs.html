@@ -42,6 +42,13 @@
     const sortBtn = document.querySelector('.sort');
     const clearBtn = document.querySelector('.clear');
     const noLogs = document.querySelector('.no-logs');
+    const logsEl = document.querySelector('.logs');
+
+    function removeOneLog(id) {
+      const updatedLogs = logs.filter((log) => log.id != id);
+      localStorage.setItem('timerLogs', JSON.stringify(updatedLogs));
+      displayLogs(updatedLogs);
+    }
 
     if (!logs.length) {
       downloadBtn.style.display = 'none';
@@ -90,7 +97,6 @@
       displayLogs(sortedLogs); // display the sorted logs
     })
 
-    const logsEl = document.querySelector('.logs');
     function displayLogs(logsToDisplay) {
       logsEl.innerHTML = '';
 
@@ -100,10 +106,17 @@
           logRows += `<tr><td><b>${key}</b></td><td>${log[key]}</td></tr>`
         }
         const newLog = document.createElement('div');
-        newLog.innerHTML = `<table class="log" style="margin-bottom: 1rem;">${logRows}</table> `
+        newLog.innerHTML = `<table class="log" style="margin-bottom: 0;">${logRows}</table><button class="remove" style="margin-bottom: 1rem; border-radius: 0;">Remove</button>`;
         logsEl.appendChild(newLog);
       })
     }
+
+    logsEl.addEventListener('click', (e) => {
+      if (e.target.classList.contains('remove')) {
+        const id = e.target.parentElement.querySelector('tr:first-child td:last-child').textContent;
+        removeOneLog(id);
+      }
+    })
 
     displayLogs(logs);
   </script>

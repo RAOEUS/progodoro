@@ -207,6 +207,7 @@
       const formData = new FormData(form);
       curMotivation = formData.get('motivation');
       notes = formData.get('notes');
+      notes = notes.replace(/(?:\r\n|\r|\n)/g, '<br>'); // Add line breaks where necessary
       workLength = motivationConfig[curMotivation][0];
       breakLength = motivationConfig[curMotivation][1];
     }
