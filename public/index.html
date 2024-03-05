@@ -1,532 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Progodoro</title>
-		<link rel="icon" href="/favicon.ico" type="image/x-icon">
-		<link rel="stylesheet" href="/css/style.css">
-		<meta name="description"
-		      content="Progodoro, a portmanteau of Progressive and Pomodoro. Progressively increases your work time and decreases your break time as your motivation levels increase.">
-		<meta name="keywords" content="pomodoro,progodoro,timer,flow state,time management,productivity">
-		<style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Progodoro</title>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/css/style.css">
+        <meta name="description"
+        content="Progodoro, a portmanteau of Progressive and Pomodoro. Progressively increases your work time and decreases your break time as your motivation levels increase.">
+        <meta name="keywords" content="pomodoro,progodoro,timer,flow state,time management,productivity">
+        <style>
 .input-group.checkbox {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
     .input-group.checkbox label {
-	    width: auto;
+        width: auto;
     }
 
     .input-group.checkbox input[type="checkbox"] {
-	    width: auto;
+        width: auto;
     }
-		</style>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-YT1KPP7J8G"></script>
-		<script src="/google.js"></script>
-	</head>
-
-	<body>
-		<div class="container">
-			<nav class="nav">
-				<div class="nav__title">
-					<h1>🍅 progodoro</h1>
-				</div>
-				<ul class="nav__links">
-					<a href="/config">
-						<li>config</li>
-					</a>
-					<a href="/logs">
-						<li>logs</li>
-					</a>
-					<a href="https://github.com/RAOEUS/progodoro">
-						<li>github</li>
-					</a>
-				</ul>
-			</nav>
-			<div class="notifications-off"></div>
-			<div style="margin-bottom: 1rem;">
-				<button id="whats-progodoro-button">what's progodoro?</button>
-			</div>
-			<div class="modal" id="whats-progodoro-modal">
-				<div class="modal__content">
-					<div class="modal__header">
-						<h2>what's progodoro?</h2>
-						<button class="modal__close">X</button>
-					</div>
-					<div class="modal__body">
-						<h2>Progodoro vs. Pomodoro: A Time Management Comparison</h2>
-						<p>Time management techniques play a crucial role in enhancing productivity and maintaining focus. Let's
-						explore the original Pomodoro Technique and its innovative adaptation, Progodoro.</p>
-
-						<h2>The Original Pomodoro Technique</h2>
-						<p>Developed by Francesco Cirillo in the late 1980s, the Pomodoro Technique follows a simple structure:</p>
-						<ul>
-							<li><strong>Focus Sprints:</strong> Set a timer for 25 minutes (a "pomodoro") and concentrate on a single
-								task.</li>
-							<li><strong>Record Completion:</strong> When the timer rings, mark off one pomodoro and note what you
-								accomplished.</li>
-							<li><strong>Short Breaks:</strong> Take a 5-minute break after each pomodoro.</li>
-							<li><strong>Longer Breaks:</strong> After completing four pomodoros, reward yourself with a 15-30 minute
-								break.</li>
-						</ul>
-						<p>The Pomodoro Technique promotes sustained focus, prevents burnout, and enhances productivity.</p>
-
-						<h2>Introducing Progodoro</h2>
-						<p>Now, let's take a look at Progodoro (portmanteau of "Progressive" and "Pomodoro"):</p>
-						<ul>
-							<li><strong>Adaptive Timers:</strong> Progodoro dynamically adjusts work and break intervals based on
-								motivation levels.</li>
-							<li><strong>Personalization:</strong> Progodoro tailors timers to individual preferences.</li>
-							<li><strong>Gamification:</strong> By gamifying time management, Progodoro encourages consistency.</li>
-							<li><strong>Motivation Tracking:</strong> Progodoro's input prompts foster self-awareness.</li>
-							<li><strong>Customizable Breaks:</strong> Users can set break lengths according to their needs.</li>
-						</ul>
-
-						<h2>Why Choose Progodoro Over Pomodoro?</h2>
-						<ul>
-							<li><strong>Optimized Productivity:</strong> Progodoro's adaptive approach ensures peak efficiency.</li>
-							<li><strong>Motivation Alignment:</strong> Progodoro syncs with your motivation levels, preventing burnout.
-							</li>
-							<li><strong>Engagement:</strong> Gamification makes time management enjoyable.</li>
-							<li><strong>Fine-Tuned Breaks:</strong> Progodoro's adjustments prevent over-resting or under-resting.</li>
-							<li><strong>Individualized Experience:</strong> Progodoro caters to your unique work style.</li>
-						</ul>
-
-						<p>Incorporating insights from Dr. Andrew Huberman's podcast, we recognize that motivation isn't a stepwise
-						process; it gradually builds up. Dopamine, the brain's pleasure chemical, plays a key role in our drive for
-						goals. Progodoro's adaptive timers align well with this understanding, allowing you to optimize productivity
-						while respecting your natural motivation rhythms.</p>
-
-						<p>In summary, while the Pomodoro Technique is effective, Progodoro adapts to your motivation, making time
-						management personalized and engaging. Give Progodoro a try and experience the benefits firsthand! </p>
-					</div>
-				</div>
-			</div>
-			<div class="input-group checkbox">
-				<label for="sound">sound on</label>
-				<input type="checkbox" name="sound" id="sound">
-			</div>
-			<form id="timerForm">
-				<div class="hideDuringTimer">
-					<div class="input-group">
-						<select name="motivation" id="motivation" required>
-							<option value="">-- select your current motivation level</option>
-						</select>
-					</div>
-					<div class="input-group">
-						<textarea id="notes" name="notes" rows="10" placeholder="what are you working on?"></textarea>
-					</div>
-				</div>
-				<div id="timer"></div>
-				<div class="input-group">
-					<input type="submit" value="start">
-				</div>
-			</form>
-		</div>
-
-		<script>
-			// Ask for permission to send notifications
-			Notification.requestPermission().then(function (permission) {
-							if (permission === 'granted') {
-											console.log('Notification permission granted.');
-										} else {
-														console.log('Unable to get permission to notify.');
-													}
-						});
-
-			// If notifications permissions are denied, display a message
-			const notificationsOff = document.querySelector('.notifications-off');
-			if (Notification.permission !== 'granted') {
-							notificationsOff.innerHTML = '<p>Please enable notifications in your browser settings to receive system notifications.</p>';
-						}
-
-			let timeStart;
-			let timeEnd;
-			let dateTimeStart;
-			let dateTimeEnd;
-			let motivationConfig;
-			let curMotivation;
-			let workLength;
-			let breakLength;
-			let timerType;
-			let timerInterval;
-			let notes;
-			let canceledEarly = false;
-
-			const timerEl = document.getElementById('timer');
-			const form = document.getElementById('timerForm');
-
-			function handleSoundSettings() {
-							// Set checkbox for sound based on localStorage value
-							const soundCheckbox = document.getElementById('sound');
-							const soundChecked = localStorage.getItem('sound') === 'true' || localStorage.getItem('sound') === null;
-
-							soundCheckbox.checked = soundChecked;
-
-							soundCheckbox.addEventListener('change', () => {
-											if (soundCheckbox.checked) {
-															localStorage.setItem('sound', true);
-														} else {
-																		localStorage.setItem('sound', false);
-																	}
-										});
-						}
-
-			// format hh:mm:ss time to seconds for use in setInterval
-			function formatTime(time) {
-							const [hours, minutes, seconds] = time.split(':');
-							return Number(hours) * 3600 + Number(minutes) * 60 + Number(seconds);
-						}
-
-			function logTimerData(duration) {
-							let originalLength;
-							if (formatTime(workLength) === 0 || formatTime(breakLength) === 0) {
-											// Stopwatch timer
-											timerType = 'work';
-											originalLength = 0;
-										} else {
-														originalLength = timerType === 'work' ? formatTime(workLength) : formatTime(breakLength);
-													}
-							let newLog = {
-											canceledEarly: canceledEarly,
-											dateTimeStart: dateTimeStart,
-											dateTimeEnd: dateTimeEnd,
-											originalLength: originalLength,
-											duration: duration,
-											motivation: curMotivation,
-											type: timerType,
-										};
-
-							if (notes && timerType === 'work') {
-											newLog.notes = notes;
-										}
-
-							const timerData = JSON.parse(localStorage.getItem('timerLogs')) || [];
-
-							let id;
-							if (timerData.length === 0) {
-											id = 1;
-										} else {
-														id = timerData.reduce((acc, cur) => {
-																		return cur.id > acc ? cur.id : acc;
-																	}, 0) + 1;
-													}
-
-							newLog.id = id;
-
-							// sort newLog object keys alphabetically except id is first
-							newLog = Object.keys(newLog)
-								.sort((a, b) => {
-												if (a === 'id') {
-																return -1;
-															} else if (b === 'id') {
-																			return 1;
-																		} else {
-																						return a.localeCompare(b);
-																					}
-											})
-								.reduce((acc, key) => {
-												acc[key] = newLog[key];
-												return acc;
-											}, {});
-
-
-							timerData.push(newLog);
-							localStorage.setItem('timerLogs', JSON.stringify(timerData));
-						}
-
-			function populateMotivationSelect(motivationConfig) {
-							// Populate the motivation select with the motivation levels from the config
-							Object.entries(motivationConfig).forEach(([key, value]) => {
-											const option = document.createElement('option');
-											option.value = key;
-											option.text = key;
-											document.getElementById('motivation').appendChild(option);
-										});
-						}
-
-			function step(expected) {
-							const severeDriftThreshold = 500;
-
-							const dt = Date.now() - expected;
-
-							if (dt > severeDriftThreshold) {
-											console.log("Severe drift detected!");
-
-											// One-time correction (adjust expected for remaining time)
-											const currentTime = Date.now();
-											const remainingTime = targetTime - currentTime;
-											expected = currentTime + Math.max(0, remainingTime);
-										}
-
-							return expected;
-						}
-
-
-			function getTimerValues() {
-							// get form submission data
-							const formData = new FormData(form);
-							curMotivation = formData.get('motivation');
-							notes = formData.get('notes');
-							notes = notes.replace(/(?:\r\n|\r|\n)/g, '<br>'); // Add line breaks where necessary
-							workLength = motivationConfig[curMotivation][0];
-							breakLength = motivationConfig[curMotivation][1];
-						}
-
-			function stopTimer() {
-							let duration;
-							if (formatTime(workLength) === 0 || formatTime(breakLength) === 0) {
-											// Stopwatch timer
-											timerType = 'work';
-											duration = Math.round(elapsedTime / 1000);
-										} else {
-														// Regular timer
-														duration = Math.round((Date.now() - dateTimeStart) / 1000);
-													}
-
-							logTimerData(duration);
-
-							clearInterval(timerInterval);
-							timeEnd = performance.now();
-							dateTimeEnd = new Date();
-							document.getElementsByTagName('title')[0].innerHTML = 'Progodoro';
-							timerEl.style.display = 'none';
-							const submitBtn = document.querySelector('input[type="submit"]');
-							submitBtn.value = 'start';
-							const hideDuringTimer = document.querySelectorAll('.hideDuringTimer');
-							hideDuringTimer.forEach((el) => {
-											el.style.display = 'block';
-										});
-						}
-
-			// Display timer with hh:mm:ss format from seconds input
-			function displayTimer(seconds) {
-							const hideDuringTimer = document.querySelectorAll('.hideDuringTimer');
-							hideDuringTimer.forEach((el) => {
-											el.style.display = 'none';
-										});
-							const hours = Math.floor(seconds / 3600);
-							const minutes = Math.floor(seconds / 60) % 60;
-							const secs = seconds % 60;
-							const timeRemaining = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''
-										}${secs}`;
-							document.getElementsByTagName('title')[0].innerHTML = (timerType === 'work' ? 'Work' : 'Break') + ' ' + timeRemaining;
-							timerEl.style.display = 'flex';
-							timerEl.innerHTML = `
-		       <div class="timer__time">${timeRemaining}</div>
-		       <table class="timer__table">
-		       <tr>
-		       <td>motivation</td>
-		       <td>${curMotivation}</td>
-		       </tr>
-		       <tr>
-		       <td>type</td>
-		       <td>${timerType}</td>
-		       </tr>
-		       <tr>
-		       <td>notes</td>
-		       <td>${notes ? notes : 'none'}</td>
-		       </tr>
-		       </table>
-		       `;
-							const submitBtn = document.querySelector('input[type="submit"]');
-							submitBtn.value = 'stop';
-						}
-
-			function startStopWatch() {
-							timerType = 'work';
-							dateTimeStart = new Date();
-							clearInterval(timerInterval);
-
-							let seconds = 0;
-							timeStart = performance.now();
-							let expected = Date.now() + 1000;
-
-							timerInterval = setInterval(() => {
-											const currentTime = performance.now();
-											elapsedTime = currentTime - timeStart;
-											seconds = Math.floor(elapsedTime / 1000);
-
-											displayTimer(seconds);
-
-											// Self-adjustment
-											const dt = Date.now() - expected;
-											expected += 1000;
-											setTimeout(step, Math.max(0, 1000 - dt), expected);
-
-										}, 1000);
-						}
-
-			function startTimer() {
-							function setTimerInterval(type) {
-											dateTimeStart = new Date();
-
-											// clear any existing timer interval
-											clearInterval(timerInterval);
-
-											timerType = type;
-
-											const time = type === 'work' ? workLength : breakLength;
-
-											let seconds = formatTime(time);
-											const targetTime = dateTimeStart.getTime() + (seconds * 1000);
-											let expected = Date.now() + 1000;
-
-											displayTimer(seconds);
-
-											timeStart = performance.now();
-											dateTimeStart = new Date();
-
-											// set the timer interval
-											timerInterval = setInterval(() => {
-															const currentTime = Date.now();
-															const remainingTime = targetTime - currentTime;
-
-															if (remainingTime > 0) {
-																			seconds = Math.floor(remainingTime / 1000);
-																			displayTimer(seconds);
-
-																			// Self-adjustment using step()
-																			const dt = currentTime - expected;
-																			const newDelay = step(expected);
-																			expected += newDelay; // Update expectation
-																			setTimeout(step, newDelay, expected); // Adjust within setTimeout
-																		} else {
-																						// clear the timer interval
-																						clearInterval(timerInterval);
-
-																						// display the timer
-																						displayTimer(seconds);
-
-																						dateTimeEnd = new Date();
-
-																						// Check if service workers are supported
-																						if ('serviceWorker' in navigator) {
-																										navigator.serviceWorker.register('/sw.js').then(function (registration) {
-																														console.log('ServiceWorker registration successful with scope: ', registration.scope);
-																													}).catch(function (err) {
-																																	console.log('ServiceWorker registration failed: ', err);
-																																});
-																									}
-
-																						// check if notifications are allowed and send a notification
-																						if (Notification.permission === 'granted') {
-																										let msg = timerType === 'work' ? `Your work timer is up! You have ${breakLength} to rest.` : 'Your break timer is up! Please return to the browser tab to start your next work session.';
-
-																										navigator.serviceWorker.ready.then(function (registration) {
-																														registration.showNotification('Progodoro', {
-																																		body: msg,
-																																	});
-																													});
-																									}
-
-																						// Play chime sound
-																						if (localStorage.getItem('sound') === 'true' || localStorage.getItem('sound') === null) {
-																										const audio = new Audio('/chimebar_a.mp3');
-																										audio.play();
-																									}
-
-																						// Start break timer
-																						if (timerType === 'work') {
-																										logTimerData(); // Work timer is logged here
-																										setTimerInterval('break');
-																									} else {
-																													stopTimer();
-																												}
-																					}
-														}, 1000);
-										}
-
-
-							setTimerInterval('work');
-						}
-
-			async function main() {
-							handleSoundSettings();
-
-							// =======================================================================
-							// Get the motivation config from localStorage or fetch it from the server
-							// =======================================================================
-							motivationConfig = JSON.parse(localStorage.getItem('motivationConfig'));
-
-							if (!motivationConfig) {
-											const response = await fetch('/config-data');
-											const data = await response.json();
-											motivationConfig = data;
-											await localStorage.setItem('motivationConfig', JSON.stringify(motivationConfig));
-										}
-
-							// =========================================================================
-							// Populate the motivation select with the motivation levels from the config
-							// =========================================================================
-							populateMotivationSelect(motivationConfig);
-
-							// =========================
-							// Get the timer form values
-							// =========================
-							form.addEventListener('submit', (event) => {
-											event.preventDefault();
-											getTimerValues();
-											if (event.submitter.value === 'start') {
-															if (workLength === '00:00:00' || breakLength === '00:00:00') {
-																			startStopWatch();
-																		} else {
-																						startTimer();
-																					}
-														} else {
-																		// Check if stopwatch timer or regular timer
-																		if (formatTime(workLength) === 0 || formatTime(breakLength) === 0) {
-																						// Stopwatch timer
-																						dateTimeEnd = new Date(); // set dateTimeEnd to current time for stopwatch timer
-																						stopTimer();
-																					} else {
-																									// Regular timer
-																									canceledEarly = true;
-																									stopTimer();
-																								}
-																	}
-										});
-						}
-
-			main();
-		</script>
-
-		<script>
-			// Get the button that opens the modal
-			const openModalBtn = document.querySelector("#whats-progodoro-button");
-			const modal = document.querySelector("#whats-progodoro-modal");
-
-			// When the user clicks the button, open the modal
-			openModalBtn.onclick = function () {
-							// open modal
-							modal.style.display = "block";
-							// Prevent scrolling when modal is open
-							document.body.style.overflow = "hidden";
-
-							// close modal when user clicks outside of modal
-							window.onclick = function (event) {
-											if (event.target == modal) {
-															modal.style.display = "none";
-														}
-										}
-							// close modal when user clicks close button
-							const closeModalBtn = document.querySelector(".modal__close");
-							closeModalBtn.addEventListener("click", () => {
-											modal.style.display = "none";
-										});
-							// close modal when user presses escape key
-							document.addEventListener("keydown", (event) => {
-											if (event.key === "Escape") {
-															modal.style.display = "none";
-														}
-										});
-						}
-
-		</script>
-	</body>
+        </style>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YT1KPP7J8G"></script>
+        <script src="/google.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <nav class="nav">
+                <div class="nav__title">
+                    <h1>🍅 progodoro</h1>
+                </div>
+                <ul class="nav__links">
+                    <a href="/config">
+                        <li>config</li>
+                    </a>
+                    <a href="/logs">
+                        <li>logs</li>
+                    </a>
+                    <a href="https://github.com/RAOEUS/progodoro">
+                        <li>github</li>
+                    </a>
+                </ul>
+            </nav>
+            <div class="notifications-off"></div>
+            <div style="margin-bottom: 1rem;">
+                <button id="whats-progodoro-button">what's progodoro?</button>
+            </div>
+            <div class="modal" id="whats-progodoro-modal">
+                <div class="modal__content">
+                    <div class="modal__header">
+                        <h2>what's progodoro?</h2>
+                        <button class="modal__close">X</button>
+                    </div>
+                    <div class="modal__body">
+                        <h2>Progodoro vs. Pomodoro: A Time Management Comparison</h2>
+                        <p>Time management techniques play a crucial role in enhancing productivity and maintaining focus. Let's
+                        explore the original Pomodoro Technique and its innovative adaptation, Progodoro.</p>
+
+                        <h2>The Original Pomodoro Technique</h2>
+                        <p>Developed by Francesco Cirillo in the late 1980s, the Pomodoro Technique follows a simple structure:</p>
+                        <ul>
+                            <li><strong>Focus Sprints:</strong> Set a timer for 25 minutes (a "pomodoro") and concentrate on a single
+                                task.</li>
+                            <li><strong>Record Completion:</strong> When the timer rings, mark off one pomodoro and note what you
+                                accomplished.</li>
+                            <li><strong>Short Breaks:</strong> Take a 5-minute break after each pomodoro.</li>
+                            <li><strong>Longer Breaks:</strong> After completing four pomodoros, reward yourself with a 15-30 minute
+                                break.</li>
+                        </ul>
+                        <p>The Pomodoro Technique promotes sustained focus, prevents burnout, and enhances productivity.</p>
+
+                        <h2>Introducing Progodoro</h2>
+                        <p>Now, let's take a look at Progodoro (portmanteau of "Progressive" and "Pomodoro"):</p>
+                        <ul>
+                            <li><strong>Adaptive Timers:</strong> Progodoro dynamically adjusts work and break intervals based on
+                                motivation levels.</li>
+                            <li><strong>Personalization:</strong> Progodoro tailors timers to individual preferences.</li>
+                            <li><strong>Gamification:</strong> By gamifying time management, Progodoro encourages consistency.</li>
+                            <li><strong>Motivation Tracking:</strong> Progodoro's input prompts foster self-awareness.</li>
+                            <li><strong>Customizable Breaks:</strong> Users can set break lengths according to their needs.</li>
+                        </ul>
+
+                        <h2>Why Choose Progodoro Over Pomodoro?</h2>
+                        <ul>
+                            <li><strong>Optimized Productivity:</strong> Progodoro's adaptive approach ensures peak efficiency.</li>
+                            <li><strong>Motivation Alignment:</strong> Progodoro syncs with your motivation levels, preventing burnout.
+                            </li>
+                            <li><strong>Engagement:</strong> Gamification makes time management enjoyable.</li>
+                            <li><strong>Fine-Tuned Breaks:</strong> Progodoro's adjustments prevent over-resting or under-resting.</li>
+                            <li><strong>Individualized Experience:</strong> Progodoro caters to your unique work style.</li>
+                        </ul>
+
+                        <p>Incorporating insights from Dr. Andrew Huberman's podcast, we recognize that motivation isn't a stepwise
+                        process; it gradually builds up. Dopamine, the brain's pleasure chemical, plays a key role in our drive for
+                        goals. Progodoro's adaptive timers align well with this understanding, allowing you to optimize productivity
+                        while respecting your natural motivation rhythms.</p>
+
+                        <p>In summary, while the Pomodoro Technique is effective, Progodoro adapts to your motivation, making time
+                        management personalized and engaging. Give Progodoro a try and experience the benefits firsthand! </p>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group checkbox">
+                <label for="sound">sound on</label>
+                <input type="checkbox" name="sound" id="sound">
+            </div>
+            <form id="timerForm">
+                <div class="hideDuringTimer">
+                    <div class="input-group">
+                        <select name="motivation" id="motivation" required>
+                            <option value="">-- select your current motivation level</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="notes" name="notes" rows="10" placeholder="what are you working on?"></textarea>
+                    </div>
+                </div>
+                <div id="timer"></div>
+                <div class="input-group">
+                    <input type="submit" value="start">
+                </div>
+            </form>
+        </div>
+
+        <script>
+            // Ask for permission to send notifications
+            Notification.requestPermission().then(function (permission) {
+                if (permission === 'granted') {
+                    console.log('Notification permission granted.');
+                } else {
+                    console.log('Unable to get permission to notify.');
+                }
+            });
+
+            // If notifications permissions are denied, display a message
+            const notificationsOff = document.querySelector('.notifications-off');
+            if (Notification.permission !== 'granted') {
+                notificationsOff.innerHTML = '<p>Please enable notifications in your browser settings to receive system notifications.</p>';
+            }
+
+            let timeStart;
+            let timeEnd;
+            let dateTimeStart;
+            let dateTimeEnd;
+            let motivationConfig;
+            let curMotivation;
+            let workLength;
+            let breakLength;
+            let timerType;
+            let timerInterval;
+            let notes;
+            let canceledEarly = false;
+
+            const timerEl = document.getElementById('timer');
+            const form = document.getElementById('timerForm');
+
+            function handleSoundSettings() {
+                // Set checkbox for sound based on localStorage value
+                const soundCheckbox = document.getElementById('sound');
+                const soundChecked = localStorage.getItem('sound') === 'true' || localStorage.getItem('sound') === null;
+
+                soundCheckbox.checked = soundChecked;
+
+                soundCheckbox.addEventListener('change', () => {
+                    if (soundCheckbox.checked) {
+                        localStorage.setItem('sound', true);
+                    } else {
+                        localStorage.setItem('sound', false);
+                    }
+                });
+            }
+
+            // format hh:mm:ss time to seconds for use in setInterval
+            function formatTime(time) {
+                const [hours, minutes, seconds] = time.split(':');
+                return Number(hours) * 3600 + Number(minutes) * 60 + Number(seconds);
+            }
+
+            function logTimerData(duration) {
+                let originalLength;
+                if (formatTime(workLength) === 0 || formatTime(breakLength) === 0) {
+                    // Stopwatch timer
+                    timerType = 'work';
+                    originalLength = 0;
+                } else {
+                    originalLength = timerType === 'work' ? formatTime(workLength) : formatTime(breakLength);
+                }
+                let newLog = {
+                    canceledEarly: canceledEarly,
+                    dateTimeStart: dateTimeStart,
+                    dateTimeEnd: dateTimeEnd,
+                    originalLength: originalLength,
+                    duration: duration,
+                    motivation: curMotivation,
+                    type: timerType,
+                };
+
+                if (notes && timerType === 'work') {
+                    newLog.notes = notes;
+                }
+
+                const timerData = JSON.parse(localStorage.getItem('timerLogs')) || [];
+
+                let id;
+                if (timerData.length === 0) {
+                    id = 1;
+                } else {
+                    id = timerData.reduce((acc, cur) => {
+                        return cur.id > acc ? cur.id : acc;
+                    }, 0) + 1;
+                }
+
+                newLog.id = id;
+
+                // sort newLog object keys alphabetically except id is first
+                newLog = Object.keys(newLog)
+                    .sort((a, b) => {
+                        if (a === 'id') {
+                            return -1;
+                        } else if (b === 'id') {
+                            return 1;
+                        } else {
+                            return a.localeCompare(b);
+                        }
+                    })
+                    .reduce((acc, key) => {
+                        acc[key] = newLog[key];
+                        return acc;
+                    }, {});
+
+
+                timerData.push(newLog);
+                localStorage.setItem('timerLogs', JSON.stringify(timerData));
+            }
+
+            function populateMotivationSelect(motivationConfig) {
+                // Populate the motivation select with the motivation levels from the config
+                Object.entries(motivationConfig).forEach(([key, value]) => {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = key;
+                    document.getElementById('motivation').appendChild(option);
+                });
+            }
+
+            function step(expected) {
+                const severeDriftThreshold = 500;
+
+                const dt = Date.now() - expected;
+
+                if (dt > severeDriftThreshold) {
+                    console.log("Severe drift detected!");
+
+                    // One-time correction (adjust expected for remaining time)
+                    const currentTime = Date.now();
+                    const remainingTime = targetTime - currentTime;
+                    expected = currentTime + Math.max(0, remainingTime);
+                }
+
+                return expected;
+            }
+
+
+            function getTimerValues() {
+                // get form submission data
+                const formData = new FormData(form);
+                curMotivation = formData.get('motivation');
+                notes = formData.get('notes');
+                notes = notes.replace(/(?:\r\n|\r|\n)/g, '<br>'); // Add line breaks where necessary
+                workLength = motivationConfig[curMotivation][0];
+                breakLength = motivationConfig[curMotivation][1];
+            }
+
+            function stopTimer() {
+                let duration;
+                if (formatTime(workLength) === 0 || formatTime(breakLength) === 0) {
+                    // Stopwatch timer
+                    timerType = 'work';
+                    duration = Math.round(elapsedTime / 1000);
+                } else {
+                    // Regular timer
+                    duration = Math.round((Date.now() - dateTimeStart) / 1000);
+                }
+
+                logTimerData(duration);
+
+                clearInterval(timerInterval);
+                timeEnd = performance.now();
+                dateTimeEnd = new Date();
+                document.getElementsByTagName('title')[0].innerHTML = 'Progodoro';
+                timerEl.style.display = 'none';
+                const submitBtn = document.querySelector('input[type="submit"]');
+                submitBtn.value = 'start';
+                const hideDuringTimer = document.querySelectorAll('.hideDuringTimer');
+                hideDuringTimer.forEach((el) => {
+                    el.style.display = 'block';
+                });
+            }
+
+            // Display timer with hh:mm:ss format from seconds input
+            function displayTimer(seconds) {
+                const hideDuringTimer = document.querySelectorAll('.hideDuringTimer');
+                hideDuringTimer.forEach((el) => {
+                    el.style.display = 'none';
+                });
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor(seconds / 60) % 60;
+                const secs = seconds % 60;
+                const timeRemaining = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''
+                }${secs}`;
+                document.getElementsByTagName('title')[0].innerHTML = (timerType === 'work' ? 'Work' : 'Break') + ' ' + timeRemaining;
+                timerEl.style.display = 'flex';
+                timerEl.innerHTML = `
+                    <div class="timer__time">${timeRemaining}</div>
+                    <table class="timer__table">
+                    <tr>
+                    <td>motivation</td>
+                    <td>${curMotivation}</td>
+                    </tr>
+                    <tr>
+                    <td>type</td>
+                    <td>${timerType}</td>
+                    </tr>
+                    <tr>
+                    <td>notes</td>
+                    <td>${notes ? notes : 'none'}</td>
+                    </tr>
+                    </table>
+                    `;
+                const submitBtn = document.querySelector('input[type="submit"]');
+                submitBtn.value = 'stop';
+            }
+
+            function startStopWatch() {
+                timerType = 'work';
+                dateTimeStart = new Date();
+                clearInterval(timerInterval);
+
+                let seconds = 0;
+                timeStart = performance.now();
+                let expected = Date.now() + 1000;
+
+                timerInterval = setInterval(() => {
+                    const currentTime = performance.now();
+                    elapsedTime = currentTime - timeStart;
+                    seconds = Math.floor(elapsedTime / 1000);
+
+                    displayTimer(seconds);
+
+                    // Self-adjustment
+                    const dt = Date.now() - expected;
+                    expected += 1000;
+                    setTimeout(step, Math.max(0, 1000 - dt), expected);
+
+                }, 1000);
+            }
+
+            function startTimer() {
+                function setTimerInterval(type) {
+                    dateTimeStart = new Date();
+
+                    // clear any existing timer interval
+                    clearInterval(timerInterval);
+
+                    timerType = type;
+
+                    const time = type === 'work' ? workLength : breakLength;
+
+                    let seconds = formatTime(time);
+                    const targetTime = dateTimeStart.getTime() + (seconds * 1000);
+                    let expected = Date.now() + 1000;
+
+                    displayTimer(seconds);
+
+                    timeStart = performance.now();
+                    dateTimeStart = new Date();
+
+                    // set the timer interval
+                    timerInterval = setInterval(() => {
+                        const currentTime = Date.now();
+                        const remainingTime = targetTime - currentTime;
+
+                        if (remainingTime > 0) {
+                            seconds = Math.floor(remainingTime / 1000);
+                            displayTimer(seconds);
+
+                            // Self-adjustment using step()
+                            const dt = currentTime - expected;
+                            const newDelay = step(expected);
+                            expected += newDelay; // Update expectation
+                            setTimeout(step, newDelay, expected); // Adjust within setTimeout
+                        } else {
+                            // clear the timer interval
+                            clearInterval(timerInterval);
+
+                            // display the timer
+                            displayTimer(seconds);
+
+                            dateTimeEnd = new Date();
+
+                            // Check if service workers are supported
+                            if ('serviceWorker' in navigator) {
+                                navigator.serviceWorker.register('/sw.js').then(function (registration) {
+                                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                                }).catch(function (err) {
+                                    console.log('ServiceWorker registration failed: ', err);
+                                });
+                            }
+
+                            // check if notifications are allowed and send a notification
+                            if (Notification.permission === 'granted') {
+                                let msg = timerType === 'work' ? `Your work timer is up! You have ${breakLength} to rest.` : 'Your break timer is up! Please return to the browser tab to start your next work session.';
+
+                                navigator.serviceWorker.ready.then(function (registration) {
+                                    registration.showNotification('Progodoro', {
+                                        body: msg,
+                                    });
+                                });
+                            }
+
+                            // Play chime sound
+                            if (localStorage.getItem('sound') === 'true' || localStorage.getItem('sound') === null) {
+                                const audio = new Audio('/chimebar_a.mp3');
+                                audio.play();
+                            }
+
+                            // Start break timer
+                            if (timerType === 'work') {
+                                logTimerData(); // Work timer is logged here
+                                setTimerInterval('break');
+                            } else {
+                                stopTimer();
+                            }
+                        }
+                    }, 1000);
+                }
+
+
+                setTimerInterval('work');
+            }
+
+            async function main() {
+                handleSoundSettings();
+
+                // =======================================================================
+                    // Get the motivation config from localStorage or fetch it from the server
+                // =======================================================================
+                    motivationConfig = JSON.parse(localStorage.getItem('motivationConfig'));
+
+                if (!motivationConfig) {
+                    const response = await fetch('/config-data');
+                    const data = await response.json();
+                    motivationConfig = data;
+                    await localStorage.setItem('motivationConfig', JSON.stringify(motivationConfig));
+                }
+
+                // =========================================================================
+                    // Populate the motivation select with the motivation levels from the config
+                // =========================================================================
+                    populateMotivationSelect(motivationConfig);
+
+                // =========================
+                    // Get the timer form values
+                // =========================
+                    form.addEventListener('submit', (event) => {
+                        event.preventDefault();
+                        getTimerValues();
+                        if (event.submitter.value === 'start') {
+                            if (workLength === '00:00:00' || breakLength === '00:00:00') {
+                                startStopWatch();
+                            } else {
+                                startTimer();
+                            }
+                        } else {
+                            // Check if stopwatch timer or regular timer
+                            if (formatTime(workLength) === 0 || formatTime(breakLength) === 0) {
+                                // Stopwatch timer
+                                dateTimeEnd = new Date(); // set dateTimeEnd to current time for stopwatch timer
+                                stopTimer();
+                            } else {
+                                // Regular timer
+                                canceledEarly = true;
+                                stopTimer();
+                            }
+                        }
+                    });
+            }
+
+            main();
+        </script>
+
+        <script>
+            // Get the button that opens the modal
+            const openModalBtn = document.querySelector("#whats-progodoro-button");
+            const modal = document.querySelector("#whats-progodoro-modal");
+
+            // When the user clicks the button, open the modal
+            openModalBtn.onclick = function () {
+                // open modal
+                modal.style.display = "block";
+                // Prevent scrolling when modal is open
+                document.body.style.overflow = "hidden";
+
+                // close modal when user clicks outside of modal
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+                // close modal when user clicks close button
+                const closeModalBtn = document.querySelector(".modal__close");
+                closeModalBtn.addEventListener("click", () => {
+                    modal.style.display = "none";
+                });
+                // close modal when user presses escape key
+                document.addEventListener("keydown", (event) => {
+                    if (event.key === "Escape") {
+                        modal.style.display = "none";
+                    }
+                });
+            }
+
+        </script>
+    </body>
 
 </html>
