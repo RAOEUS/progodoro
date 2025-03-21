@@ -38,6 +38,12 @@ body * {
   font-family: 'Roboto', sans-serif;
 }
 
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 a {
   color: var(--link-col);
 }
