@@ -1,0 +1,26 @@
+<div id="logsContent">
+    <h1>Timer Logs</h1>
+    <div id="logsContainer"></div>
+    <script>
+    fetch('/logs-data')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('logsContainer');
+            if (!data.length) {
+                container.textContent = "No logs available.";
+            } else {
+                data.forEach(log => {
+                    const div = document.createElement('div');
+                    div.classList.add('log-entry');
+                    div.innerHTML = `<strong>ID:</strong> ${log.id} | <strong>Type:</strong> ${log.type} | 
+                    <strong>Motivation:</strong> ${log.motivation} | 
+                    <strong>Start:</strong> ${new Date(log.timeStart).toLocaleString()} | 
+                    <strong>End:</strong> ${new Date(log.timeEnd).toLocaleString()} | 
+                    <strong>Message:</strong> ${log.message || ''}`;
+                    container.appendChild(div);
+                });
+            }
+        });
+    </script>
+</div>
+

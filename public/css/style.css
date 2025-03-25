@@ -1,0 +1,115 @@
+/* Reset & Global Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Fira Code', Consolas, monospace;
+  background-color: #1a1b26;
+  color: #a9b1d6;
+  line-height: 1.6;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  color: #bb9af7;
+  margin-top: 0;
+}
+
+/* Navigation */
+nav {
+  margin-bottom: 20px;
+}
+
+nav a {
+  margin-right: 15px;
+  text-decoration: none;
+  color: #7aa2f7;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #bb9af7;
+}
+
+/* Log Entry Cards */
+.log-entry {
+  background-color: #292c3c;
+  border: 1px solid #3b4261;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* Form Elements */
+input[type="text"],
+select,
+textarea {
+  background-color: #292c3c;
+  color: #a9b1d6;
+  border: 1px solid #3b4261;
+  border-radius: 5px;
+  padding: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+textarea {
+  height: 60px;
+}
+
+/* Buttons */
+button {
+  background-color: #7aa2f7;
+  border: none;
+  padding: 10px 15px;
+  color: #1a1b26;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #bb9af7;
+}
+
+/* Persistent Timer (Footer) */
+#persistentTimer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #292c3c;
+  border-top: 1px solid #3b4261;
+  padding: 10px;
+  text-align: center;
+  font-size: 1em;
+  display: none; /* hidden by default */
+}
+
+/* Responsive Design */
+/* Mobile */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+  nav a {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  body {
+    padding: 20px;
+  }
+  nav a {
+    margin-right: 12px;
+  }
+}
+

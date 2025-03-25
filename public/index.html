@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Progodoro</title>
+    <!-- HTMX library -->
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+      /* Simple Spinner Styles */
+      #loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #1a1b26;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      .spinner {
+        border: 8px solid #3b4261;
+        border-top: 8px solid #7aa2f7;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loader Overlay -->
+    <div id="loader">
+      <div class="spinner"></div>
+    </div>
+
+    <header>
+      <nav>
+        <a
+          href="/partials/home"
+          hx-get="/partials/home"
+          hx-target="#content"
+          hx-swap="innerHTML"
+          >Home</a
+        >
+        |
+        <a
+          href="/partials/config"
+          hx-get="/partials/config"
+          hx-target="#content"
+          hx-swap="innerHTML"
+          >Config</a
+        >
+        |
+        <a
+          href="/partials/logs"
+          hx-get="/partials/logs"
+          hx-target="#content"
+          hx-swap="innerHTML"
+          >Logs</a
+        >
+      </nav>
+    </header>
+    <main id="content">
+      <div hx-get="/partials/home" hx-trigger="load"></div>
+    </main>
+    <!-- Persistent timer display fixed at the bottom -->
+    <footer id="persistentTimer"></footer>
+    <script src="/js/app.js" type="module"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Animate loader fade-out
+        gsap.to("#loader", {
+          opacity: 0,
+          duration: 0.5,
+          onComplete: () => {
+            document.getElementById("loader").style.display = "none";
+          },
+        });
+
+        // Animate page elements
+        gsap.from("header", { duration: 1, opacity: 0, y: -50 });
+        gsap.from("main", { duration: 1, opacity: 0, delay: 0.5 });
+        gsap.from("#persistentTimer", { duration: 1, opacity: 0, delay: 1 });
+      });
+    </script>
+  </body>
+</html>
+

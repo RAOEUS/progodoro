@@ -1,0 +1,58 @@
+<div id="configContent">
+    <h1>Configuration</h1>
+    <form id="configForm">
+        <div>
+            <h2>Low Motivation (lo)</h2>
+            <label>Work Time: <input type="text" name="loWork" pattern="\d{2}:\d{2}:\d{2}" required></label>
+            <label>Break Time: <input type="text" name="loBreak" pattern="\d{2}:\d{2}:\d{2}" required></label>
+        </div>
+        <div>
+            <h2>Medium Motivation (med)</h2>
+            <label>Work Time: <input type="text" name="medWork" pattern="\d{2}:\d{2}:\d{2}" required></label>
+            <label>Break Time: <input type="text" name="medBreak" pattern="\d{2}:\d{2}:\d{2}" required></label>
+        </div>
+        <div>
+            <h2>High Motivation (hi)</h2>
+            <label>Work Time: <input type="text" name="hiWork" pattern="\d{2}:\d{2}:\d{2}" required></label>
+            <label>Break Time: <input type="text" name="hiBreak" pattern="\d{2}:\d{2}:\d{2}" required></label>
+        </div>
+        <div>
+            <h2>Flow</h2>
+            <label>Work Time: <input type="text" name="flowWork" pattern="\d{2}:\d{2}:\d{2}" required></label>
+            <label>Break Time: <input type="text" name="flowBreak" pattern="\d{2}:\d{2}:\d{2}" required></label>
+        </div>
+        <button type="submit">Save Configuration</button>
+    </form>
+    <div id="configMessage"></div>
+    <script>
+    // On load, populate the form with config data (from localStorage or default)
+    fetch('/config-data')
+        .then(res => res.json())
+        .then(defaultConfig => {
+            const config = JSON.parse(localStorage.getItem('motivationConfig')) || defaultConfig;
+            document.querySelector('input[name="loWork"]').value = config.lo[0];
+            document.querySelector('input[name="loBreak"]').value = config.lo[1];
+            document.querySelector('input[name="medWork"]').value = config.med[0];
+            document.querySelector('input[name="medBreak"]').value = config.med[1];
+            document.querySelector('input[name="hiWork"]').value = config.hi[0];
+            document.querySelector('input[name="hiBreak"]').value = config.hi[1];
+            document.querySelector('input[name="flowWork"]').value = config.flow[0];
+            document.querySelector('input[name="flowBreak"]').value = config.flow[1];
+        });
+    document.getElementById('configForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newConfig = {
+            lo: [this.loWork.value, this.loBreak.value],
+            med: [this.medWork.value, this.medBreak.value],
+            hi: [this.hiWork.value, this.hiBreak.value],
+            flow: [this.flowWork.value, this.flowBreak.value]
+        };
+        localStorage.setItem('motivationConfig', JSON.stringify(newConfig));
+        document.getElementById('configMessage').textContent = "Configuration saved successfully.";
+        // Also refresh the motivation select in case the home view is active.
+        const evt = new CustomEvent("configUpdated", { detail: newConfig });
+        document.dispatchEvent(evt);
+    });
+    </script>
+</div>
+

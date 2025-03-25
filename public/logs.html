@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Progodoro - Logs</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/" hx-get="/" hx-target="body" hx-swap="outerHTML">Home</a> |
+      <a
+        href="/config.html"
+        hx-get="/config.html"
+        hx-target="body"
+        hx-swap="outerHTML"
+        >Config</a
+      >
+    </nav>
+    <h1>Timer Logs</h1>
+    <div id="logsContainer"></div>
+    <script>
+      fetch("/logs-data")
+        .then((response) => response.json())
+        .then((data) => {
+          const container = document.getElementById("logsContainer");
+          if (!data.length) {
+            container.textContent = "No logs available.";
+          } else {
+            data.forEach((log, index) => {
+              const div = document.createElement("div");
+              div.classList.add("log-entry");
+              div.innerHTML = `<strong>ID:</strong> ${log.id} | <strong>Type:</strong> ${log.type} | <strong>Motivation:</strong> ${log.motivation} | 
+                  <strong>Start:</strong> ${new Date(
+                    log.timeStart
+                  ).toLocaleString()} | 
+                  <strong>End:</strong> ${new Date(
+                    log.timeEnd
+                  ).toLocaleString()} | 
+                  <strong>Message:</strong> ${log.message || ""}`;
+              container.appendChild(div);
+              // Animate each log entry with a slight delay between items
+              gsap.from(div, {
+                opacity: 0,
+                y: 20,
+                duration: 0.5,
+                delay: index * 0.1,
+              });
+            });
+          }
+        });
+    </script>
+  </body>
+</html>
+
